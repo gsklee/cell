@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 // ### Local Modules
 
 import * as actions from 'scripts/actions';
+import Cell from 'scripts/components/Cell';
 
 // Define & Export Module
 // ----------------------
@@ -37,6 +38,11 @@ export default @connect(state => state, actions) class App extends React.Compone
           <header>Counter Example</header>
           <p>{example.count}</p>
           <button onClick = {increment}>Increment</button><button onClick = {decrement}>Decrement</button>
+        </section>
+        <hr/>
+        <h1>Cell</h1>
+        <section>
+          <Cell/>
         </section>
       </main>
     );
