@@ -23,26 +23,27 @@ import Cell from 'scripts/components/Cell';
 
 export default @connect(state => state, actions) class App extends React.Component {
   static propTypes = {
-    example: React.PropTypes.object.isRequired,
-    increment: React.PropTypes.func.isRequired,
-    decrement: React.PropTypes.func.isRequired
+    cell: React.PropTypes.object.isRequired,
+    react: React.PropTypes.func.isRequired,
+    addGlucose: React.PropTypes.func.isRequired
   }
 
   render () {
-    const {example, increment, decrement} = this.props;
+    const {
+      cell,
+      react,
+      addGlucose
+    } = this.props;
 
     return (
       <main>
-        <h1>Hello, world!</h1>
-        <section>
-          <header>Counter Example</header>
-          <p>{example.count}</p>
-          <button onClick = {increment}>Increment</button><button onClick = {decrement}>Decrement</button>
-        </section>
-        <hr/>
         <h1>Cell</h1>
         <section>
-          <Cell/>
+          <button onClick = {addGlucose}>Add 600 D-Glucose</button>
+          <Cell
+            cell = {cell}
+            actions = {{react}}
+          />
         </section>
       </main>
     );

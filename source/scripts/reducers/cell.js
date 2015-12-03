@@ -19,8 +19,13 @@ import {createReducers} from 'scripts/helpers';
 // See also https://en.wikipedia.org/wiki/Transition_system.
 
 export default createReducers({
-  count: {
-    increment: (state, action) => state + 1,
-    decrement: (state, action) => state - 1
+  Glc: {
+    react: (state, action) => state - 1,
+
+    addGlucose: (state, action) => state + 600
+  },
+
+  G6P: {
+    react: (state, action) => state + 1
   }
-}, defaultState.example);
+}, defaultState.cell);

@@ -16,9 +16,25 @@ import React from 'react';
 // This module contains `< Cell/>`.
 
 export default class Cell extends React.Component {
+  static propTypes = {
+    cell: React.PropTypes.object.isRequired,
+    actions: React.PropTypes.object.isRequired
+  }
+
+  componentWillReceiveProps () {
+    setTimeout(this.props.actions.react, 100);
+  }
+
   render () {
+    const {
+      cell: {Glc, G6P}
+    } = this.props;
+
     return (
-      <div>Cell</div>
+      <ul>
+        <li>D-Glucose: {Glc}</li>
+        <li>α-D-Glucose-6-phosphate: {G6P}</li>
+      </ul>
     );
   }
 }

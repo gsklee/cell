@@ -10,8 +10,9 @@
 
 export default {
   defaultState: {
-    example: {
-      count: 0
+    cell: {
+      Glc: 0,
+      G6P: 0
     }
   }
 };
