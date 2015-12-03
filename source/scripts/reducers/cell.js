@@ -20,12 +20,12 @@ import {createReducers} from 'scripts/helpers';
 
 export default createReducers({
   Glc: {
-    react: (state, action) => state - 1,
+    addGlucose: (state, action) => state + 60,
 
-    addGlucose: (state, action) => state + 600
+    triggerGlycolysisStep1: (state, action) => state - 1
   },
 
   G6P: {
-    react: (state, action) => state + 1
+    triggerGlycolysisStep1: (state, action) => state + 1
   }
 }, defaultState.cell);

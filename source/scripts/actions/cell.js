@@ -16,6 +16,6 @@ import {createActions} from 'scripts/helpers';
 // This module contains the following Redux actions.
 
 export default createActions(
-  'react',
-  'addGlucose'
+  'addGlucose',
+  'triggerGlycolysisStep1'
 );

@@ -24,25 +24,25 @@ import Cell from 'scripts/components/Cell';
 export default @connect(state => state, actions) class App extends React.Component {
   static propTypes = {
     cell: React.PropTypes.object.isRequired,
-    react: React.PropTypes.func.isRequired,
-    addGlucose: React.PropTypes.func.isRequired
+    addGlucose: React.PropTypes.func.isRequired,
+    triggerGlycolysisStep1: React.PropTypes.func.isRequired
   }
 
   render () {
     const {
       cell,
-      react,
-      addGlucose
+      addGlucose,
+      triggerGlycolysisStep1
     } = this.props;
 
     return (
       <main>
         <h1>Cell</h1>
         <section>
-          <button onClick = {addGlucose}>Add 600 D-Glucose</button>
+          <button onClick = {addGlucose}>Add 60 D-Glucose</button>
           <Cell
             cell = {cell}
-            actions = {{react}}
+            actions = {{triggerGlycolysisStep1}}
           />
         </section>
       </main>

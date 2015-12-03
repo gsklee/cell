@@ -21,8 +21,15 @@ export default class Cell extends React.Component {
     actions: React.PropTypes.object.isRequired
   }
 
-  componentWillReceiveProps () {
-    setTimeout(this.props.actions.react, 100);
+  componentDidUpdate () {
+    const {
+      cell,
+      actions: {triggerGlycolysisStep1}
+    } = this.props;
+
+    setTimeout(() => {
+      cell.Glc > 0 && triggerGlycolysisStep1();
+    }, 100);
   }
 
   render () {
