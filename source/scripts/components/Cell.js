@@ -43,7 +43,7 @@ export default class Cell extends React.Component {
         3: () => interconvert({
           0: {F16BP},
           1: {GADP, DHAP},
-          isReversing: DHAP / (F16BP + DHAP) > Math.random()
+          isReversing: GADP / (F16BP + GADP) > Math.random()
         }),
         4: () => interconvert({
           0: {DHAP},
