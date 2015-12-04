@@ -11,19 +11,20 @@
 export default {
   defaultState: {
     cell: {
-      H: 80,
-      Pi: 80,
-      ADP: 80,
-      ATP: 80,
-      NAD: 80,
-      NADH: 80,
+      H: 60,
+      Pi: 60,
+      ADP: 60,
+      ATP: 60,
+      NAD: 60,
+      NADH: 60,
       Glc: 0,
       G6P: 0,
       F6P: 0,
       F16BP: 0,
       GADP: 0,
       DHAP: 0,
-      _13BPG: 0
+      _13BPG: 0,
+      _3PG: 0
     }
   }
 };

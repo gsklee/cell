@@ -28,7 +28,7 @@ export default class Cell extends React.Component {
   componentDidMount () {
     setInterval(() => {
       const {
-        cell: {H, Pi, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG},
+        cell: {H, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG},
         actions: {phosphorylate, interconvert}
       } = this.props;
 
@@ -59,16 +59,22 @@ export default class Cell extends React.Component {
           0: {GADP, NAD, Pi},
           1: {_13BPG, NADH, H},
           isReversing: _13BPG / (GADP + _13BPG) > Math.random()
+        }),
+
+        6: () => interconvert({
+          0: {_13BPG, ADP, H},
+          1: {_3PG, ATP},
+          isReversing: _3PG / (_13BPG + _3PG) > Math.random()
         })
       };
 
-      reactions[getRandomInteger(0, 5)]();
-    }, 50);
+      reactions[getRandomInteger(0, 6)]();
+    }, 10);
   }
 
   render () {
     const {
-      cell: {H, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG}
+      cell: {H, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG}
     } = this.props;
 
     return (
@@ -86,6 +92,7 @@ export default class Cell extends React.Component {
         <li>D-Glyceraldehyde-3-Phosphate (GADP): {GADP}</li>
         <li>Dihydroxyacetone Phosphate (DHAP): {DHAP}</li>
         <li>D-1,3-Bisphosphoglycerate (1,3BPG): {_13BPG}</li>
+        <li>3-Phosphoglycerate (3PG): {_3PG}</li>
       </ul>
     );
   }
