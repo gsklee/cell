@@ -27,7 +27,13 @@ function isReactive (payload) {
 
 export default createReducers({
   H: {
-    phosphorylate: (state, action) => isReactive(action.payload) ? state + 1 : state
+    phosphorylate: (state, action) => isReactive(action.payload) ? state + 1 : state,
+
+    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
+  },
+
+  Pi: {
+    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
   },
 
   ADP: {
@@ -36,6 +42,14 @@ export default createReducers({
 
   ATP: {
     phosphorylate: (state, action) => isReactive(action.payload) ? state - 1 : state
+  },
+
+  NAD: {
+    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
+  },
+
+  NADH: {
+    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
   },
 
   Glc: {
@@ -65,6 +79,7 @@ export default createReducers({
   GADP: {
     interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
                                    : action.payload[0].DHAP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
+                                   : action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1)
                                    : state
   },
 
@@ -72,5 +87,9 @@ export default createReducers({
     interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
                                    : action.payload[0].DHAP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1)
                                    : state
+  },
+
+  _13BPG: {
+    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
   }
 }, defaultState.cell);
