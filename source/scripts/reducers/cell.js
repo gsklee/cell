@@ -14,8 +14,15 @@ import {keys} from 'bound-native-methods/object';
 import {defaultState} from 'scripts/configs';
 import {createReducers} from 'scripts/helpers';
 
-function isReactive (payload) {
+function isReactive ({payload}) {
   return payload::keys().every(reactant => payload[reactant] > 0);
+}
+
+function getStoichiometricCoefficient ({payload}, {mainReactant, isProduct}) {
+  return !payload[0][mainReactant] ? 0
+       : !isReactive({payload: payload[+payload.isReversing]}) ? 0
+       : payload.isReversing === isProduct ? -1
+       : 1;
 }
 
 // Export Module
@@ -27,69 +34,71 @@ function isReactive (payload) {
 
 export default createReducers({
   H: {
-    phosphorylate: (state, action) => isReactive(action.payload) ? state + 1 : state,
+    phosphorylate: (state, action) => state + isReactive(action),
 
-    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: true})
   },
 
   Pi: {
-    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: false})
   },
 
   ADP: {
-    phosphorylate: (state, action) => isReactive(action.payload) ? state + 1 : state
+    phosphorylate: (state, action) => state + isReactive(action)
   },
 
   ATP: {
-    phosphorylate: (state, action) => isReactive(action.payload) ? state - 1 : state
+    phosphorylate: (state, action) => state - isReactive(action)
   },
 
   NAD: {
-    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: false})
   },
 
   NADH: {
-    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: true})
   },
 
   Glc: {
     addGlucose: (state, action) => state + 60,
 
-    phosphorylate: (state, action) => action.payload.Glc && isReactive(action.payload) ? state - 1 : state
+    phosphorylate: (state, action) => state - (!!action.payload.Glc && isReactive(action))
   },
 
   G6P: {
-    phosphorylate: (state, action) => action.payload.Glc && isReactive(action.payload) ? state + 1 : state,
+    phosphorylate: (state, action) => state + (!!action.payload.Glc && isReactive(action)),
 
-    interconvert: (state, action) => action.payload[0].G6P && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'G6P', isProduct: false})
   },
 
   F6P: {
-    interconvert: (state, action) => action.payload[0].G6P && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state,
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'G6P', isProduct: true}),
 
-    phosphorylate: (state, action) => action.payload.F6P && isReactive(action.payload) ? state - 1 : state
+    phosphorylate: (state, action) => state - (!!action.payload.F6P && isReactive(action))
   },
 
   F16BP: {
-    phosphorylate: (state, action) => action.payload.F6P && isReactive(action.payload) ? state + 1 : state,
+    phosphorylate: (state, action) => state + (!!action.payload.F6P && isReactive(action)),
 
-    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'F16BP', isProduct: false})
   },
 
   GADP: {
-    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
-                                   : action.payload[0].DHAP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
-                                   : action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1)
-                                   : state
+    interconvert: (state, action) => state + (
+      getStoichiometricCoefficient(action, {mainReactant: 'F16BP', isProduct: true}) ||
+      getStoichiometricCoefficient(action, {mainReactant: 'DHAP', isProduct: true}) ||
+      getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: false})
+    )
   },
 
   DHAP: {
-    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
-                                   : action.payload[0].DHAP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1)
-                                   : state
+    interconvert: (state, action) => state + (
+      getStoichiometricCoefficient(action, {mainReactant: 'F16BP', isProduct: true}) ||
+      getStoichiometricCoefficient(action, {mainReactant: 'DHAP', isProduct: false})
+    )
   },
 
   _13BPG: {
-    interconvert: (state, action) => action.payload[0].GADP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: true})
   }
 }, defaultState.cell);
