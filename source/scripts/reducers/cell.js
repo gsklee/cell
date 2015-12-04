@@ -34,7 +34,10 @@ function getStoichiometricCoefficient ({payload}, {mainReactant, isProduct}) {
 
 export default createReducers({
   H: {
-    phosphorylate: (state, action) => state + isReactive(action),
+    phosphorylate: (state, action) => state + (
+      -(!!action.payload.ADP && isReactive(action)) ||
+      (!!action.payload.ATP && isReactive(action))
+    ),
 
     interconvert: (state, action) => state + (
       getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: true}) ||
@@ -51,13 +54,19 @@ export default createReducers({
   },
 
   ADP: {
-    phosphorylate: (state, action) => state + isReactive(action),
+    phosphorylate: (state, action) => state + (
+      -(!!action.payload.ADP && isReactive(action)) ||
+      (!!action.payload.ATP && isReactive(action))
+    ),
 
     interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: '_13BPG', isProduct: false})
   },
 
   ATP: {
-    phosphorylate: (state, action) => state - isReactive(action),
+    phosphorylate: (state, action) => state + (
+      (!!action.payload.ADP && isReactive(action)) ||
+      -(!!action.payload.ATP && isReactive(action))
+    ),
 
     interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: '_13BPG', isProduct: true})
   },
@@ -131,6 +140,12 @@ export default createReducers({
   },
 
   PEP: {
-    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: '_2PG', isProduct: true})
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: '_2PG', isProduct: true}),
+
+    phosphorylate: (state, action) => state - (!!action.payload.ADP && isReactive(action))
+  },
+
+  Pyr: {
+    phosphorylate: (state, action) => state + (!!action.payload.ADP && isReactive(action))
   }
 }, defaultState.cell);

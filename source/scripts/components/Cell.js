@@ -77,16 +77,18 @@ export default class Cell extends React.Component {
           0: {_2PG},
           1: {PEP, H2O},
           isReversing: PEP / (_2PG + PEP) > Math.random()
-        })
+        }),
+
+        9: () => phosphorylate({PEP, ADP})
       };
 
-      reactions[getRandomInteger(0, 8)]();
-    }, 10);
+      reactions[getRandomInteger(0, 9)]();
+    }, 20);
   }
 
   render () {
     const {
-      cell: {H, H2O, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG, _2PG, PEP}
+      cell: {H, H2O, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG, _2PG, PEP, Pyr}
     } = this.props;
 
     return (
@@ -108,6 +110,7 @@ export default class Cell extends React.Component {
         <li>3-Phosphoglycerate (3PG): {_3PG}</li>
         <li>2-Phosphoglycerate (2PG): {_2PG}</li>
         <li>Phosphoenolpyruvate (PEP): {PEP}</li>
+        <li>Pyruvate (Pyr): {Pyr}</li>
       </ul>
     );
   }
