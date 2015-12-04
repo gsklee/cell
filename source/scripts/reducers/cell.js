@@ -63,10 +63,14 @@ export default createReducers({
   },
 
   GADP: {
-    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
+                                   : action.payload[0].DHAP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
+                                   : state
   },
 
   DHAP: {
-    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
+    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1)
+                                   : action.payload[0].DHAP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1)
+                                   : state
   }
 }, defaultState.cell);
