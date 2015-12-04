@@ -20,30 +20,36 @@ import {createReducers} from 'scripts/helpers';
 
 export default createReducers({
   H: {
-    phosphorylate: (state, action) => state + Math.sign(action.payload)
+    phosphorylate: (state, action) => action.payload.ATP > 0 ? state + Math.sign(action.payload[action.payload.reactant]) : state
   },
 
   ADP: {
-    phosphorylate: (state, action) => state + Math.sign(action.payload)
+    phosphorylate: (state, action) => action.payload.ATP > 0 ? state + Math.sign(action.payload[action.payload.reactant]) : state
   },
 
   ATP: {
-    phosphorylate: (state, action) => state - Math.sign(action.payload)
+    phosphorylate: (state, action) => action.payload.ATP > 0 ? state - Math.sign(action.payload[action.payload.reactant]) : state
   },
 
   Glc: {
-    addGlucose: (state, action) => state + 50,
+    addGlucose: (state, action) => state + 60,
 
-    phosphorylate: (state, action) => state - Math.sign(action.payload)
+    phosphorylate: (state, action) => action.payload.reactant === 'Glc' && action.payload.ATP > 0 ? state - Math.sign(action.payload.Glc) : state
   },
 
   G6P: {
-    phosphorylate: (state, action) => state + Math.sign(action.payload),
+    phosphorylate: (state, action) => action.payload.reactant === 'Glc' && action.payload.ATP > 0 ? state + Math.sign(action.payload.Glc) : state,
 
     isomerize: (state, action) => state - Math.sign(action.payload.G6P - action.payload.F6P)
   },
 
   F6P: {
-    isomerize: (state, action) => state + Math.sign(action.payload.G6P - action.payload.F6P)
+    isomerize: (state, action) => state + Math.sign(action.payload.G6P - action.payload.F6P),
+
+    phosphorylate: (state, action) => action.payload.reactant === 'F6P' && action.payload.ATP > 0 ? state - Math.sign(action.payload.F6P) : state
+  },
+
+  F16BP: {
+    phosphorylate: (state, action) => action.payload.reactant === 'F6P' && action.payload.ATP > 0 ? state + Math.sign(action.payload.F6P) : state
   }
 }, defaultState.cell);

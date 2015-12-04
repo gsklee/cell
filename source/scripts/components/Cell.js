@@ -28,22 +28,23 @@ export default class Cell extends React.Component {
   componentDidMount () {
     setInterval(() => {
       const {
-        cell: {Glc, G6P, F6P},
+        cell: {ATP, Glc, G6P, F6P},
         actions: {phosphorylate, isomerize}
       } = this.props;
 
       const reactions = {
-        0: () => phosphorylate(Glc),
-        1: () => isomerize({G6P, F6P})
+        0: () => phosphorylate({ATP, Glc, reactant: 'Glc'}),
+        1: () => isomerize({G6P, F6P}),
+        2: () => phosphorylate({ATP, F6P, reactant: 'F6P'})
       };
 
-      reactions[getRandomInteger(0, 1)]();
+      reactions[getRandomInteger(0, 2)]();
     }, 100);
   }
 
   render () {
     const {
-      cell: {H, ADP, ATP, Glc, G6P, F6P}
+      cell: {H, ADP, ATP, Glc, G6P, F6P, F16BP}
     } = this.props;
 
     return (
@@ -53,7 +54,8 @@ export default class Cell extends React.Component {
         <li>Adenosine Triphosphate: {ATP}</li>
         <li>D-Glucose: {Glc}</li>
         <li>α-D-Glucose-6-Phosphate: {G6P}</li>
-        <li>β-D-Fructose 6-phosphate: {F6P}</li>
+        <li>β-D-Fructose-6-Phosphate: {F6P}</li>
+        <li>β-D-Fructose-1,6-Bisphosphate: {F16BP}</li>
       </ul>
     );
   }

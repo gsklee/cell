@@ -41,7 +41,7 @@ export default @connect(state => state, actions) class App extends React.Compone
       <main>
         <h1>Cell</h1>
         <section>
-          <button onClick = {addGlucose}>Add 50 D-Glucose</button>
+          <button onClick = {addGlucose}>Add 60 D-Glucose</button>
           <Cell
             cell = {cell}
             actions = {{phosphorylate, isomerize}}

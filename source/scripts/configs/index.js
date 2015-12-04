@@ -13,10 +13,11 @@ export default {
     cell: {
       H: 0,
       ADP: 0,
-      ATP: 100,
+      ATP: 80,
       Glc: 0,
       G6P: 0,
-      F6P: 0
+      F6P: 0,
+      F16BP: 0
     }
   }
 };
