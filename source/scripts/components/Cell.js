@@ -23,18 +23,19 @@ export default class Cell extends React.Component {
 
   componentDidUpdate () {
     const {
-      cell,
-      actions: {phosphorylate}
+      cell: {Glc, G6P, F6P},
+      actions: {phosphorylate, isomerize}
     } = this.props;
 
     setTimeout(() => {
-      cell.Glc > 0 && phosphorylate('Glc');
+      phosphorylate({Glc});
+      isomerize({G6P, F6P});
     }, 100);
   }
 
   render () {
     const {
-      cell: {H, ADP, ATP, Glc, G6P}
+      cell: {H, ADP, ATP, Glc, G6P, F6P}
     } = this.props;
 
     return (
@@ -44,6 +45,7 @@ export default class Cell extends React.Component {
         <li>Adenosine Triphosphate: {ATP}</li>
         <li>D-Glucose: {Glc}</li>
         <li>α-D-Glucose-6-Phosphate: {G6P}</li>
+        <li>β-D-Fructose 6-phosphate: {F6P}</li>
       </ul>
     );
   }

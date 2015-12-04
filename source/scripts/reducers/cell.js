@@ -34,10 +34,16 @@ export default createReducers({
   Glc: {
     addGlucose: (state, action) => state + 50,
 
-    phosphorylate: (state, action) => action.payload === 'Glc' ? state - 1 : state
+    phosphorylate: (state, action) => state - Math.sign(action.payload.Glc)
   },
 
   G6P: {
-    phosphorylate: (state, action) => action.payload === 'Glc' ? state + 1 : state
+    phosphorylate: (state, action) => state + Math.sign(action.payload.Glc),
+
+    isomerize: (state, action) => state - Math.sign(action.payload.G6P - action.payload.F6P)
+  },
+
+  F6P: {
+    isomerize: (state, action) => state + Math.sign(action.payload.G6P - action.payload.F6P)
   }
 }, defaultState.cell);

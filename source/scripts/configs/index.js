@@ -15,7 +15,8 @@ export default {
       ADP: 0,
       ATP: 100,
       Glc: 0,
-      G6P: 0
+      G6P: 0,
+      F6P: 0
     }
   }
 };
