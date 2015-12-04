@@ -15,21 +15,29 @@ import React from 'react';
 //
 // This module contains `< Cell/>`.
 
+function getRandomInteger (min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export default class Cell extends React.Component {
   static propTypes = {
     cell: React.PropTypes.object.isRequired,
     actions: React.PropTypes.object.isRequired
   }
 
-  componentDidUpdate () {
-    const {
-      cell: {Glc, G6P, F6P},
-      actions: {phosphorylate, isomerize}
-    } = this.props;
+  componentDidMount () {
+    setInterval(() => {
+      const {
+        cell: {Glc, G6P, F6P},
+        actions: {phosphorylate, isomerize}
+      } = this.props;
 
-    setTimeout(() => {
-      phosphorylate({Glc});
-      isomerize({G6P, F6P});
+      const reactions = {
+        0: () => phosphorylate(Glc),
+        1: () => isomerize({G6P, F6P})
+      };
+
+      reactions[getRandomInteger(0, 1)]();
     }, 100);
   }
 

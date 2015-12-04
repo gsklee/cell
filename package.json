@@ -53,8 +53,7 @@
     "loose": "all",
     "experimental": true,
     "optional": [
-      "runtime",
-      "minification.constantFolding"
+      "runtime"
     ],
     "plugins": [
       "react-transform"

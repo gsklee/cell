@@ -20,25 +20,25 @@ import {createReducers} from 'scripts/helpers';
 
 export default createReducers({
   H: {
-    phosphorylate: (state, action) => state + 1
+    phosphorylate: (state, action) => state + Math.sign(action.payload)
   },
 
   ADP: {
-    phosphorylate: (state, action) => state + 1
+    phosphorylate: (state, action) => state + Math.sign(action.payload)
   },
 
   ATP: {
-    phosphorylate: (state, action) => state - 1
+    phosphorylate: (state, action) => state - Math.sign(action.payload)
   },
 
   Glc: {
     addGlucose: (state, action) => state + 50,
 
-    phosphorylate: (state, action) => state - Math.sign(action.payload.Glc)
+    phosphorylate: (state, action) => state - Math.sign(action.payload)
   },
 
   G6P: {
-    phosphorylate: (state, action) => state + Math.sign(action.payload.Glc),
+    phosphorylate: (state, action) => state + Math.sign(action.payload),
 
     isomerize: (state, action) => state - Math.sign(action.payload.G6P - action.payload.F6P)
   },
