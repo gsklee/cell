@@ -17,7 +17,9 @@ export default {
       Glc: 0,
       G6P: 0,
       F6P: 0,
-      F16BP: 0
+      F16BP: 0,
+      GADP: 0,
+      DHAP: 0
     }
   }
 };

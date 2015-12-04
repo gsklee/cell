@@ -50,6 +50,16 @@ export default createReducers({
   },
 
   F16BP: {
-    phosphorylate: (state, action) => action.payload.reactant === 'F6P' && action.payload.ATP > 0 ? state + Math.sign(action.payload.F6P) : state
+    phosphorylate: (state, action) => action.payload.reactant === 'F6P' && action.payload.ATP > 0 ? state + Math.sign(action.payload.F6P) : state,
+
+    split: (state, action) => state - Math.sign(action.payload.F16BP)
+  },
+
+  GADP: {
+    split: (state, action) => state + Math.sign(action.payload.F16BP)
+  },
+
+  DHAP: {
+    split: (state, action) => state + Math.sign(action.payload.F16BP)
   }
 }, defaultState.cell);
