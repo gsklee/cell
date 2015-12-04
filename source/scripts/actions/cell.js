@@ -18,6 +18,5 @@ import {createActions} from 'scripts/helpers';
 export default createActions(
   'addGlucose',
   'phosphorylate',
-  'isomerize',
-  'split'
+  'interconvert'
 );

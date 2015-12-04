@@ -5,11 +5,18 @@
 //
 // Import Modules
 // --------------
-//
+// ### NPM Modules
+
+import {keys} from 'bound-native-methods/object';
+
 // ### Local Modules
 
 import {defaultState} from 'scripts/configs';
 import {createReducers} from 'scripts/helpers';
+
+function isReactive (payload) {
+  return payload::keys().every(reactant => payload[reactant] > 0);
+}
 
 // Export Module
 // -------------
@@ -20,46 +27,46 @@ import {createReducers} from 'scripts/helpers';
 
 export default createReducers({
   H: {
-    phosphorylate: (state, action) => action.payload.ATP > 0 ? state + Math.sign(action.payload[action.payload.reactant]) : state
+    phosphorylate: (state, action) => isReactive(action.payload) ? state + 1 : state
   },
 
   ADP: {
-    phosphorylate: (state, action) => action.payload.ATP > 0 ? state + Math.sign(action.payload[action.payload.reactant]) : state
+    phosphorylate: (state, action) => isReactive(action.payload) ? state + 1 : state
   },
 
   ATP: {
-    phosphorylate: (state, action) => action.payload.ATP > 0 ? state - Math.sign(action.payload[action.payload.reactant]) : state
+    phosphorylate: (state, action) => isReactive(action.payload) ? state - 1 : state
   },
 
   Glc: {
     addGlucose: (state, action) => state + 60,
 
-    phosphorylate: (state, action) => action.payload.reactant === 'Glc' && action.payload.ATP > 0 ? state - Math.sign(action.payload.Glc) : state
+    phosphorylate: (state, action) => action.payload.Glc && isReactive(action.payload) ? state - 1 : state
   },
 
   G6P: {
-    phosphorylate: (state, action) => action.payload.reactant === 'Glc' && action.payload.ATP > 0 ? state + Math.sign(action.payload.Glc) : state,
+    phosphorylate: (state, action) => action.payload.Glc && isReactive(action.payload) ? state + 1 : state,
 
-    isomerize: (state, action) => state - Math.sign(action.payload.G6P - action.payload.F6P)
+    interconvert: (state, action) => action.payload[0].G6P && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
   },
 
   F6P: {
-    isomerize: (state, action) => state + Math.sign(action.payload.G6P - action.payload.F6P),
+    interconvert: (state, action) => action.payload[0].G6P && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state,
 
-    phosphorylate: (state, action) => action.payload.reactant === 'F6P' && action.payload.ATP > 0 ? state - Math.sign(action.payload.F6P) : state
+    phosphorylate: (state, action) => action.payload.F6P && isReactive(action.payload) ? state - 1 : state
   },
 
   F16BP: {
-    phosphorylate: (state, action) => action.payload.reactant === 'F6P' && action.payload.ATP > 0 ? state + Math.sign(action.payload.F6P) : state,
+    phosphorylate: (state, action) => action.payload.F6P && isReactive(action.payload) ? state + 1 : state,
 
-    split: (state, action) => state - Math.sign(action.payload.F16BP)
+    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state - (action.payload.isReversing ? -1 : 1) : state
   },
 
   GADP: {
-    split: (state, action) => state + Math.sign(action.payload.F16BP)
+    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
   },
 
   DHAP: {
-    split: (state, action) => state + Math.sign(action.payload.F16BP)
+    interconvert: (state, action) => action.payload[0].F16BP && isReactive(action.payload[+action.payload.isReversing]) ? state + (action.payload.isReversing ? -1 : 1) : state
   }
 }, defaultState.cell);

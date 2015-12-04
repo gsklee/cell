@@ -26,8 +26,7 @@ export default @connect(state => state, actions) class App extends React.Compone
     cell: React.PropTypes.object.isRequired,
     addGlucose: React.PropTypes.func.isRequired,
     phosphorylate: React.PropTypes.func.isRequired,
-    isomerize: React.PropTypes.func.isRequired,
-    split: React.PropTypes.func.isRequired
+    interconvert: React.PropTypes.func.isRequired
   }
 
   render () {
@@ -35,8 +34,7 @@ export default @connect(state => state, actions) class App extends React.Compone
       cell,
       addGlucose,
       phosphorylate,
-      isomerize,
-      split
+      interconvert
     } = this.props;
 
     return (
@@ -46,7 +44,7 @@ export default @connect(state => state, actions) class App extends React.Compone
           <button onClick = {addGlucose}>Add 60 D-Glucose</button>
           <Cell
             cell = {cell}
-            actions = {{phosphorylate, isomerize, split}}
+            actions = {{phosphorylate, interconvert}}
           />
         </section>
       </main>
