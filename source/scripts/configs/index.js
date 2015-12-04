@@ -12,6 +12,7 @@ export default {
   defaultState: {
     cell: {
       H: 60,
+      H2O: 60,
       Pi: 60,
       ADP: 60,
       ATP: 60,
@@ -24,7 +25,9 @@ export default {
       GADP: 0,
       DHAP: 0,
       _13BPG: 0,
-      _3PG: 0
+      _3PG: 0,
+      _2PG: 0,
+      PEP: 0
     }
   }
 };

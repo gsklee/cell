@@ -42,6 +42,10 @@ export default createReducers({
     )
   },
 
+  H2O: {
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: '_2PG', isProduct: true})
+  },
+
   Pi: {
     interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: 'GADP', isProduct: false})
   },
@@ -113,6 +117,20 @@ export default createReducers({
   },
 
   _3PG: {
-    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: '_13BPG', isProduct: true})
+    interconvert: (state, action) => state + (
+      getStoichiometricCoefficient(action, {mainReactant: '_13BPG', isProduct: true}) ||
+      getStoichiometricCoefficient(action, {mainReactant: '_3PG', isProduct: false})
+    )
+  },
+
+  _2PG: {
+    interconvert: (state, action) => state + (
+      getStoichiometricCoefficient(action, {mainReactant: '_3PG', isProduct: true}) ||
+      getStoichiometricCoefficient(action, {mainReactant: '_2PG', isProduct: false})
+    )
+  },
+
+  PEP: {
+    interconvert: (state, action) => state + getStoichiometricCoefficient(action, {mainReactant: '_2PG', isProduct: true})
   }
 }, defaultState.cell);

@@ -28,7 +28,7 @@ export default class Cell extends React.Component {
   componentDidMount () {
     setInterval(() => {
       const {
-        cell: {H, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG},
+        cell: {H, H2O, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG, _2PG, PEP},
         actions: {phosphorylate, interconvert}
       } = this.props;
 
@@ -65,21 +65,34 @@ export default class Cell extends React.Component {
           0: {_13BPG, ADP, H},
           1: {_3PG, ATP},
           isReversing: _3PG / (_13BPG + _3PG) > Math.random()
+        }),
+
+        7: () => interconvert({
+          0: {_3PG},
+          1: {_2PG},
+          isReversing: _2PG / (_3PG + _2PG) > Math.random()
+        }),
+
+        8: () => interconvert({
+          0: {_2PG},
+          1: {PEP, H2O},
+          isReversing: PEP / (_2PG + PEP) > Math.random()
         })
       };
 
-      reactions[getRandomInteger(0, 6)]();
+      reactions[getRandomInteger(0, 8)]();
     }, 10);
   }
 
   render () {
     const {
-      cell: {H, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG}
+      cell: {H, H2O, Pi, ADP, ATP, NAD, NADH, Glc, G6P, F6P, F16BP, GADP, DHAP, _13BPG, _3PG, _2PG, PEP}
     } = this.props;
 
     return (
       <ul>
         <li>Hydron (H⁺): {H}</li>
+        <li>Water (H2O): {H2O}</li>
         <li>Hydrogen Phosphate (Pi): {Pi}</li>
         <li>Adenosine Diphosphate (ADP): {ADP}</li>
         <li>Adenosine Triphosphate (ATP): {ATP}</li>
@@ -93,6 +106,8 @@ export default class Cell extends React.Component {
         <li>Dihydroxyacetone Phosphate (DHAP): {DHAP}</li>
         <li>D-1,3-Bisphosphoglycerate (1,3BPG): {_13BPG}</li>
         <li>3-Phosphoglycerate (3PG): {_3PG}</li>
+        <li>2-Phosphoglycerate (2PG): {_2PG}</li>
+        <li>Phosphoenolpyruvate (PEP): {PEP}</li>
       </ul>
     );
   }
