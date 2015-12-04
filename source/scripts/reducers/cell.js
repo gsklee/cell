@@ -20,24 +20,24 @@ import {createReducers} from 'scripts/helpers';
 
 export default createReducers({
   H: {
-    triggerGlycolysisStep1: (state, action) => state + 1
+    phosphorylate: (state, action) => state + 1
   },
 
   ADP: {
-    triggerGlycolysisStep1: (state, action) => state + 1
+    phosphorylate: (state, action) => state + 1
   },
 
   ATP: {
-    triggerGlycolysisStep1: (state, action) => state - 1
+    phosphorylate: (state, action) => state - 1
   },
 
   Glc: {
     addGlucose: (state, action) => state + 50,
 
-    triggerGlycolysisStep1: (state, action) => state - 1
+    phosphorylate: (state, action) => action.payload === 'Glc' ? state - 1 : state
   },
 
   G6P: {
-    triggerGlycolysisStep1: (state, action) => state + 1
+    phosphorylate: (state, action) => action.payload === 'Glc' ? state + 1 : state
   }
 }, defaultState.cell);

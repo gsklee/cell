@@ -17,5 +17,5 @@ import {createActions} from 'scripts/helpers';
 
 export default createActions(
   'addGlucose',
-  'triggerGlycolysisStep1'
+  'phosphorylate'
 );

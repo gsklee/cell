@@ -24,11 +24,11 @@ export default class Cell extends React.Component {
   componentDidUpdate () {
     const {
       cell,
-      actions: {triggerGlycolysisStep1}
+      actions: {phosphorylate}
     } = this.props;
 
     setTimeout(() => {
-      cell.Glc > 0 && triggerGlycolysisStep1();
+      cell.Glc > 0 && phosphorylate('Glc');
     }, 100);
   }
 

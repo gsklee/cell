@@ -25,14 +25,14 @@ export default @connect(state => state, actions) class App extends React.Compone
   static propTypes = {
     cell: React.PropTypes.object.isRequired,
     addGlucose: React.PropTypes.func.isRequired,
-    triggerGlycolysisStep1: React.PropTypes.func.isRequired
+    phosphorylate: React.PropTypes.func.isRequired
   }
 
   render () {
     const {
       cell,
       addGlucose,
-      triggerGlycolysisStep1
+      phosphorylate
     } = this.props;
 
     return (
@@ -42,7 +42,7 @@ export default @connect(state => state, actions) class App extends React.Compone
           <button onClick = {addGlucose}>Add 50 D-Glucose</button>
           <Cell
             cell = {cell}
-            actions = {{triggerGlycolysisStep1}}
+            actions = {{phosphorylate}}
           />
         </section>
       </main>
