@@ -11,6 +11,9 @@
 export default {
   defaultState: {
     cell: {
+      H: 0,
+      ADP: 0,
+      ATP: 100,
       Glc: 0,
       G6P: 0
     }

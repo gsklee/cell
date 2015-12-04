@@ -34,13 +34,16 @@ export default class Cell extends React.Component {
 
   render () {
     const {
-      cell: {Glc, G6P}
+      cell: {H, ADP, ATP, Glc, G6P}
     } = this.props;
 
     return (
       <ul>
+        <li>Hydron: {H}</li>
+        <li>Adenosine Diphosphate: {ADP}</li>
+        <li>Adenosine Triphosphate: {ATP}</li>
         <li>D-Glucose: {Glc}</li>
-        <li>α-D-Glucose-6-phosphate: {G6P}</li>
+        <li>α-D-Glucose-6-Phosphate: {G6P}</li>
       </ul>
     );
   }

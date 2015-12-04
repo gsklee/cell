@@ -19,8 +19,20 @@ import {createReducers} from 'scripts/helpers';
 // See also https://en.wikipedia.org/wiki/Transition_system.
 
 export default createReducers({
+  H: {
+    triggerGlycolysisStep1: (state, action) => state + 1
+  },
+
+  ADP: {
+    triggerGlycolysisStep1: (state, action) => state + 1
+  },
+
+  ATP: {
+    triggerGlycolysisStep1: (state, action) => state - 1
+  },
+
   Glc: {
-    addGlucose: (state, action) => state + 60,
+    addGlucose: (state, action) => state + 50,
 
     triggerGlycolysisStep1: (state, action) => state - 1
   },
